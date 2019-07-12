@@ -2,7 +2,7 @@ import { VuexModule, mutation, getter, Module } from 'vuex-class-component'
 import { User } from '../../models/User'
 
 @Module({ namespacedPath: 'user/', target: 'nuxt' })
-export class UserStore extends VuexModule {
+export default class UserStore extends VuexModule {
     @getter userInfo: User = {
         uid: '',
         name: '',
