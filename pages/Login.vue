@@ -12,7 +12,6 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import firebase from '../plugins/firebase'
-import { Mutation, namespace } from 'vuex-class'
 import { vxm } from '../store/store.vuex'
 import { User } from '../models/User'
 
