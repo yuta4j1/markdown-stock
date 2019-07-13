@@ -1,10 +1,10 @@
 <template>
     <div class="content">
         <div class="row">
-            <textarea id="title" cols="200" rows="1" placeholder="input title" v-model="title"></textarea>
+            <textarea id="title" cols="200" rows="1" placeholder="input title" v-model="post.title"></textarea>
         </div>
         <div class="row">
-            <textarea id="editor" class="wide-textarea" rows="30" v-model="inputText"></textarea>
+            <textarea id="editor" class="wide-textarea" rows="30" v-model="post.content"></textarea>
             <div id="previewer" class="wide-textarea" rows="30" v-html="parsedMarkdownText" readonly></div>
         </div>
         <div class="button-area">
@@ -20,9 +20,10 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import * as markedParser from '@yuta4j1/marked-wasm'
-import { Post } from '../models/Post'
 import db from '../plugins/firestore'
 import { vxm } from '../store/store.vuex'
+import { Post } from '../models/Post'
+import { EditorState } from '../models/EditorState'
 import DialogMessage from '../components/DialogMessage.vue'
 import Modal from '../components/Modal.vue'
 
@@ -34,8 +35,17 @@ import Modal from '../components/Modal.vue'
 })
 export default class Editor extends Vue {
 
-    private title: string = ''
-    private inputText: string = ''
+    private post: Post = vxm.post.onEditPost || {
+        id: '',
+        title: '',
+        tags: [],
+        content: '',
+        ownerId: '',
+        remarks: '',
+        insertDateTime: '',
+        updateDateTime: ''
+    }
+
     private modalOpen: boolean = false
     private message: string = "テキストを投稿します。よろしいですか？"
     modalClass = {
@@ -45,7 +55,7 @@ export default class Editor extends Vue {
     }
 
     get parsedMarkdownText(): string {
-        return markedParser.parse(this.inputText)
+        return markedParser.parse(this.post.content)
     }
 
     get dialogOpen(): boolean {
@@ -88,6 +98,7 @@ export default class Editor extends Vue {
         //     console.log('oops. perhaps occurered error...')
         // })
     }
+    
 }
 
 </script>
