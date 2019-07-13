@@ -17,5 +17,3 @@ export default class UserStore extends VuexModule {
         return this.userInfo
     }
 }
-
-export const user = UserStore.ExtractVuexModule(UserStore)

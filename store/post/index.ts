@@ -1,5 +1,4 @@
 import { VuexModule, mutation, getter, action, Module } from 'vuex-class-component'
-import { firebaseAction } from 'vuexfire'
 import { Post } from '../../models/Post'
 import db from '../../plugins/firestore'
 
@@ -9,9 +8,14 @@ const postsRef = db.collection('posts')
 export default class PostStore extends VuexModule {
 
     @getter posts: Post[] = []
+    @getter onEditPost: Post
 
     @mutation addPost(aPost: Post) {
         this.posts.push(aPost)
+    }
+
+    @mutation setOnEditPost(id: string) {
+        this.onEditPost = this.posts.find((p: Post) => p.id === id)
     }
 
     @mutation renewPosts(newPosts: Post[]) {
@@ -39,8 +43,8 @@ export default class PostStore extends VuexModule {
         return datas
     }
 
-    get postList() {
-        return this.posts
+    get getEditPost() {
+        return this.onEditPost
     }
 
 }
