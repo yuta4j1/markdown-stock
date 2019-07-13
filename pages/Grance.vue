@@ -1,6 +1,7 @@
 <template>
   <div class="g__container">
-      <div class="table-content" v-for="(post, idx) in posts" :key="idx">
+      <PostPanelHeader />
+      <div v-for="(post, idx) in posts" :key="idx">
         <PostPanel :post="post" />
       </div>
   </div>
@@ -10,9 +11,10 @@ import { Vue, Component } from 'vue-property-decorator'
 import { vxm } from '../store/store.vuex'
 import { Post } from '../models/Post'
 import PostPanel from '../components/PostPanel.vue'
+import PostPanelHeader from '../components/PostPanelHeader.vue'
 
 @Component({
-    components: { PostPanel }
+    components: { PostPanelHeader, PostPanel }
 })
 export default class Grance extends Vue {
     posts: Post[] = []
