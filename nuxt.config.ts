@@ -18,7 +18,8 @@ const config: NuxtConfiguration = {
         link: [
             { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=M+PLUS+1p:300&display=swap' }
         ]
-    }
+    },
+    plugins: ['~/plugins/fontawesome']
 }
 
 export default config

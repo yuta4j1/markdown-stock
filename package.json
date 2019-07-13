@@ -5,13 +5,15 @@
   "author": "yuta4j1",
   "license": "MIT",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.19",
+    "@fortawesome/free-solid-svg-icons": "^5.9.0",
+    "@fortawesome/vue-fontawesome": "^0.1.6",
     "@yuta4j1/marked-wasm": "^0.1.0",
     "core-js": "2.6.5",
     "firebase": "^6.2.3",
     "nuxt": "^2.8.1",
     "ts-node": "^8.3.0",
     "vue-property-decorator": "^8.2.1",
-    "vuex-class": "^0.3.2",
     "vuex-class-component": "^1.6.0",
     "vuexfire": "^3.0.0"
   },
