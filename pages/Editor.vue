@@ -4,15 +4,18 @@
             <textarea id="title" cols="200" rows="1" placeholder="input title" v-model="post.title"></textarea>
         </div>
         <div class="row">
+            <textarea id="tagarea" cols="150" rows="1" placeholder="ex) JavaScript,Vue.js,firebase..." v-model="tagString"></textarea>
+        </div>
+        <div class="row">
             <textarea id="editor" class="wide-textarea" rows="30" v-model="post.content"></textarea>
             <div id="previewer" class="wide-textarea" rows="30" v-html="parsedMarkdownText" readonly></div>
         </div>
         <div class="button-area">
-            <div class="btn-plain post" @click="onPost">投稿</div>
+            <div class="btn-plain post" @click="onPostClick">投稿</div>
             <div class="btn-plain save">一時保存</div>
         </div>
         <Modal :isOpen="dialogOpen">
-            <DialogMessage :message="message" :onClose="modalClose" />
+            <DialogMessage :message="message" :onOk="doPost" :onClose="modalClose" />
         </Modal>
     </div>    
 </template>
@@ -20,6 +23,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import * as markedParser from '@yuta4j1/marked-wasm'
+import dayjs from 'dayjs'
+import 'dayjs/locale/ja' 
+import uuidv4 from 'uuid/v4'
 import db from '../plugins/firestore'
 import { vxm } from '../store/store.vuex'
 import { Post } from '../models/Post'
@@ -45,6 +51,8 @@ export default class Editor extends Vue {
         insertDateTime: '',
         updateDateTime: ''
     }
+
+    private tagString: string = this.post.tags.length > 0 ? this.post.tags.join(',') : ''
 
     private modalOpen: boolean = false
     private message: string = "テキストを投稿します。よろしいですか？"
@@ -73,30 +81,62 @@ export default class Editor extends Vue {
         console.log('close modal.')
     }
 
-    onPost() {
+    onPostClick() {
         this.modalOpen = true
         this.modalClass = {
             'fadeShow': true,
             // 'hide': false,
             'fadeHide': false
         }
-        // const userInfo = vxm.user.userInfo
-        // const aPost: Post = {
-        //     id: '1',
-        //     title: this.title,
-        //     tags: ['ok', 'test'],
-        //     content: this.inputText,
-        //     ownerId: userInfo.uid,
-        //     remarks: 'aaa',
-        //     insertDateTime: 'insD',
-        //     updateDateTime: 'updD'
-        // }
-        // db.collection('posts').doc(userInfo.uid).set(aPost).then(result => {
-        //     console.log(result)
-        //     console.log('success!!')
-        // }).catch(err => {
-        //     console.log('oops. perhaps occurered error...')
-        // })
+    }
+
+    doPost() {
+        const userInfo = vxm.user.userInfo
+        dayjs.locale('ja')
+        const id = uuidv4()
+        // TODO validation check
+        if (this.post.id === '') {
+            // IDが空文字の場合、新規文書とみなし新規データ登録を行う
+            const aPost: Post = {
+                id: id,
+                title: this.post.title,
+                tags: this.tagString.split(',').map(v => v.trim()),
+                content: this.post.content,
+                ownerId: userInfo.uid,
+                remarks: 'aaa',
+                insertDateTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                updateDateTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+            }
+            db.collection('posts').doc(id).set(aPost).then(result => {
+                console.log(result)
+                console.log('insert success!')
+                this.modalClose()
+            }).catch(err => {
+                console.log(err)
+            })
+        } else {
+            // IDが空文字以外の場合、文書の更新を行う
+            const docRef = db.collection('posts').doc(this.post.id)
+            // docRef.get().then(doc => {
+            //     if (doc.exists) {
+
+            //     }
+            // })
+            docRef.update({
+                title: this.post.title,
+                tags: this.tagString.split(',').map(v => v.trim()),
+                content: this.post.content,
+                ownerId: userInfo.uid,
+                remarks: 'aaa',
+                updateDateTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
+            }).then((result) => {
+                console.log(result)
+                console.log('update success!')
+            }).catch(err => {
+                console.log(err)
+            })
+        }
+        
     }
     
 }
@@ -105,28 +145,41 @@ export default class Editor extends Vue {
 
 <style scoped>
 .row {
-    margin: 0px auto;
+    margin: 24px auto;
     display: flex;
     justify-content: center;
 }
 .content {
     font-family: 'Sarabun', sans-serif;
 }
-.content > .row > #title {
+
+/* .content > .row > #title {
     margin: 20px 20px;
-    font-size: 2.0rem
-}
+    font-size: 2.0rem;
+} */
 #title {
     border-width: 0.8px;
     border-radius: 5px;
     height: 30px;
+    font-size: 2.0rem;
+    resize: none;
 }
+
+#tagarea {
+    border-width: 0.8px;
+    border-radius: 5px;
+    height: 30px;
+    font-size: 1.5rem;
+    resize: none;
+}
+
 #editor {
     box-shadow: 0px 0px 6px 0px #B3B3B3 inset;
     font-family: 'Sarabun', sans-serif;
+    resize: none;
 }
 #previewer {
-    padding: 4px;
+    padding-left: 24px;
     border: solid;
     border-color: #C0C0C0;
     border-width: 1px;
