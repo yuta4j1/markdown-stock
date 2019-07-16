@@ -2,8 +2,8 @@
   <div>
     <p>{{ message }}</p>
     <div class="button-area">
-      <button @click="onOk">ok</button>
-      <button>キャンセル</button>
+      <button @click="onOkClick">OK</button>
+      <button @click="onCancelClick">キャンセル</button>
     </div>
   </div>
 </template>
@@ -16,9 +16,15 @@ export default class DialogMessage extends Vue {
 
     @Prop(String) message: string
 
+    @Prop() onOk: () => void
+
     @Prop() onClose: () => void
 
-    onOk() {
+    onOkClick() {
+      this.onOk()
+    }
+
+    onCancelClick() {
       this.onClose()
     }
 
