@@ -12,7 +12,7 @@
         </div>
         <div class="button-area">
             <div class="btn-plain post" @click="onPostClick">投稿</div>
-            <div class="btn-plain save">一時保存</div>
+            <div class="btn-plain return">戻る</div>
         </div>
         <Modal :isOpen="dialogOpen">
             <DialogMessage :message="message" :onOk="doPost" :onClose="modalClose" />
@@ -58,7 +58,6 @@ export default class Editor extends Vue {
     private message: string = "テキストを投稿します。よろしいですか？"
     modalClass = {
       'fadeShow': false,
-    //   'hide': true,
       'fadeHide': false
     }
 
@@ -127,11 +126,12 @@ export default class Editor extends Vue {
                 tags: this.tagString.split(',').map(v => v.trim()),
                 content: this.post.content,
                 ownerId: userInfo.uid,
-                remarks: 'aaa',
+                remarks: '',
                 updateDateTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
             }).then((result) => {
                 console.log(result)
                 console.log('update success!')
+                this.modalClose()
             }).catch(err => {
                 console.log(err)
             })
@@ -203,32 +203,32 @@ export default class Editor extends Vue {
     padding: 5px;
     border-style: solid;
     border-width: 0.8px;
-    border-radius: 12px;
+    border-radius: 24px;
     font-size: 1.2rem;
     font-weight: 20;
     width: 88px;
-    height: 32px;
+    height: 28px;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
 }
 
-@keyframes bg-color__post {
+@keyframes bg-color__return {
     0% {
         background-color: #E3F2FD;
-        color: #90CAF9;
+        color: #E0E0E0;
     }
     60% {
-        background-color: #BBDEFB;
-        color: #BBDEFB;
+        background-color: #EEEEEE;
+        color: #EEEEEE;
     }
     100% {
-        background-color: #90CAF9;
-        color: #FAFAFA;
+        background-color: #E0E0E0;
+        color: #E3F2FD;
     }
 }
 
-@keyframes bg-color__save {
+@keyframes bg-color__post {
     0% {
         background-color: #C8E6C9;
         color: #81C784;
@@ -243,24 +243,24 @@ export default class Editor extends Vue {
     }
 }
 
-.post {
-    color: #90CAF9;
-    border-color: #90CAF9;
+.return {
+    color: #E0E0E0;
+    border-color: #E0E0E0;
     border-width: 2px;
 }
 
-.post:hover {
-    animation: bg-color__post 0.1s forwards;
+.return:hover {
+    animation: bg-color__return 0.1s forwards;
 }
 
-.save {
+.post {
     color: #81C784;
     border-color: #81C784;
     border-width: 2px;
 }
 
-.save:hover {
-    animation: bg-color__save 0.1s forwards;
+.post:hover {
+    animation: bg-color__post 0.1s forwards;
 }
 
 </style>
