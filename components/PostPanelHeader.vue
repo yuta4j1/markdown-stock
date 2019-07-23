@@ -1,11 +1,11 @@
 <template>
     <div class="pp__container">
-      <div class="long-part"></div>
       <div class="long-part">タイトル</div>
       <div class="long-part">カテゴリ</div>
       <div class="part">コメント</div>
       <div class="long-part">投稿日時</div>
       <div class="long-part">更新日時</div>
+      <div class="part"></div>
   </div>
 </template>
 
