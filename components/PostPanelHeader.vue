@@ -24,8 +24,8 @@ export default class PostPanelHeader extends Vue {
     justify-content: center;
     padding: 8px;
     border-bottom-style: solid;
-    border-width: 0.5px;
-    border-color: #E0E0E0;
+    border-width: 1.5px;
+    border-color: #BDBDBD;
 }
 
 .part {
