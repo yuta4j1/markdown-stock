@@ -15,7 +15,7 @@
             <div class="btn-plain return">戻る</div>
         </div>
         <Modal :isOpen="dialogOpen">
-            <DialogMessage :message="message" :onOk="doPost" :onClose="modalClose" />
+            <DialogMessage :msgProps="postConfirmMessage" />
         </Modal>
     </div>    
 </template>
@@ -30,6 +30,7 @@ import db from '../plugins/firestore'
 import { vxm } from '../store/store.vuex'
 import { Post } from '../models/Post'
 import { EditorState } from '../models/EditorState'
+import { Message, DialogMessageProps } from '../models/Message';
 import DialogMessage from '../components/DialogMessage.vue'
 import Modal from '../components/Modal.vue'
 
@@ -55,7 +56,15 @@ export default class Editor extends Vue {
     private tagString: string = this.post.tags.length > 0 ? this.post.tags.join(',') : ''
 
     private modalOpen: boolean = false
-    private message: string = "テキストを投稿します。よろしいですか？"
+    
+    private postConfirmMessage: DialogMessageProps = {
+        message: {
+          type: 'confirm',
+          message: "テキストを投稿します。よろしいですか？"
+        },
+        onOk: this.doPost,
+        onCancel: this.modalClose
+    }
     modalClass = {
       'fadeShow': false,
       'fadeHide': false
@@ -102,7 +111,7 @@ export default class Editor extends Vue {
                 tags: this.tagString.split(',').map(v => v.trim()),
                 content: this.post.content,
                 ownerId: userInfo.uid,
-                remarks: 'aaa',
+                remarks: '',
                 insertDateTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
                 updateDateTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
             }
@@ -116,11 +125,6 @@ export default class Editor extends Vue {
         } else {
             // IDが空文字以外の場合、文書の更新を行う
             const docRef = db.collection('posts').doc(this.post.id)
-            // docRef.get().then(doc => {
-            //     if (doc.exists) {
-
-            //     }
-            // })
             docRef.update({
                 title: this.post.title,
                 tags: this.tagString.split(',').map(v => v.trim()),
