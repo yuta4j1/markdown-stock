@@ -9,6 +9,7 @@ export default class PostStore extends VuexModule {
 
     @getter posts: Post[] = []
     @getter onEditPost: Post
+    @getter deleteDocId: string
 
     @mutation addPost(aPost: Post) {
         this.posts.push(aPost)
@@ -20,6 +21,10 @@ export default class PostStore extends VuexModule {
 
     @mutation renewPosts(newPosts: Post[]) {
         this.posts = newPosts
+    }
+
+    @mutation setDeleteDocId(docId: string) {
+        this.deleteDocId = docId
     }
 
     @action async fetchPosts() {
