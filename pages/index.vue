@@ -1,26 +1,24 @@
 <template>
     <div id="app">
-        <Login />
-      <Grance />
-      <nuxt-link to="/editor">to editor</nuxt-link>
+      <Login />
+      <nuxt-link to="/grance">一覧画面へ</nuxt-link>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import Grance from './Grance.vue'
 import Login from './Login.vue';
 
 @Component({
-    components: { Grance, Login }
+    components: { Login }
 },)
 export default class Index extends Vue {
-    message: string = 'hoge'
+
 }
 </script>
 
 <style>
-#app {
+body {
     font-family: 'M PLUS 1p', sans-serif;
 }
 </style>
