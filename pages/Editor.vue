@@ -12,10 +12,10 @@
         </div>
         <div class="button-area">
             <div class="btn-plain post" @click="onPostClick">投稿</div>
-            <div class="btn-plain return">戻る</div>
+            <div class="btn-plain return" @click="onReturnClick">戻る</div>
         </div>
         <Modal :isOpen="dialogOpen">
-            <DialogMessage :msgProps="postConfirmMessage" />
+            <DialogMessage :msgProps="dialogMessage" />
         </Modal>
     </div>    
 </template>
@@ -62,9 +62,14 @@ export default class Editor extends Vue {
           type: 'confirm',
           message: "テキストを投稿します。よろしいですか？"
         },
+        okIsLink: false,
         onOk: this.doPost,
         onCancel: this.modalClose
     }
+    get dialogMessage(): DialogMessageProps {
+        return this.postConfirmMessage
+    }
+
     modalClass = {
       'fadeShow': false,
       'fadeHide': false
@@ -79,7 +84,6 @@ export default class Editor extends Vue {
     }
 
     modalClose() {
-        
         this.modalClass = {
           'fadeShow': false,
         //   'hide': false,
@@ -90,6 +94,35 @@ export default class Editor extends Vue {
     }
 
     onPostClick() {
+        // setting 'DialogMessage' props
+        this.postConfirmMessage = {
+            message: {
+            type: 'confirm',
+            message: "テキストを投稿します。よろしいですか？"
+            },
+            okIsLink: false,
+            onOk: this.doPost,
+            onCancel: this.modalClose
+        }
+        this.modalOpen = true
+        this.modalClass = {
+            'fadeShow': true,
+            // 'hide': false,
+            'fadeHide': false
+        }
+    }
+
+    onReturnClick() {
+        // setting 'DialogMessage' props
+        this.postConfirmMessage = {
+            message: {
+            type: 'confirm',
+            message: "一覧画面に戻ります。\n現在編集中のデータは保存されません。よろしいですか？"
+            },
+            okIsLink: true,
+            onOk: () => console.log('move to grance'),
+            onCancel: this.modalClose
+        }
         this.modalOpen = true
         this.modalClass = {
             'fadeShow': true,
@@ -139,10 +172,8 @@ export default class Editor extends Vue {
             }).catch(err => {
                 console.log(err)
             })
-        }
-        
-    }
-    
+        }  
+    } 
 }
 
 </script>
