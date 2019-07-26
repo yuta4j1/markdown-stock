@@ -7,6 +7,7 @@ export type Message = {
 
 export type DialogMessageProps = {
     message: Message,
+    okIsLink: boolean,
     onOk: () => void,
     onCancel: () => void
 }
