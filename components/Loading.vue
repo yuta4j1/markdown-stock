@@ -32,7 +32,7 @@ export default class Loading extends Vue {
   position: fixed;
   height: 100vh;
   width: 100vw;
-  background-color: #757575;
+  background-color: #FAFAFA;
   opacity: 0.8;
   z-index: 98;
 }
@@ -56,10 +56,10 @@ export default class Loading extends Vue {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: #FAFAFA;
+  background-color: #616161;
   position: fixed;
-  top: 40%;
-  left: 40%;
+  top: 50%;
+  left: 50%;
   z-index: 2;
   opacity: 0.6;
   transform: scale(0);
