@@ -1,21 +1,23 @@
 <template>
-  <div class="grance">
-    <MenuBar />
-    <div class="p__container">
-        <div class="p__table">
-        <PostPanelHeader />
-        <div v-for="(post, idx) in posts" :key="idx">
-            <PostPanel :post="post" :showModal="showDeleteModal" />
+  <div>
+    <Loading />
+    <div class="grance">
+        <MenuBar />
+        <div class="t__header">
+            <p>フィルタ： </p>
+            <input class="filter-text" type="text" v-model="filterKey" />
         </div>
+        <div class="p__container">
+            <div class="p__table">
+            <PostPanelHeader />
+            <div v-for="(post, idx) in filteredPosts" :key="idx">
+                <PostPanel :post="post" :showModal="showDeleteModal" />
+            </div>
+            </div>
+            <Modal :isOpen="dialogOpen">
+                <DialogMessage :msgProps="deleteConfirmMsg" :onOk="doDelete" :onClose="modalClose" />
+            </Modal>
         </div>
-        <Modal :isOpen="dialogOpen">
-            <DialogMessage :msgProps="deleteConfirmMsg" :onOk="doDelete" :onClose="modalClose" />
-        </Modal>
-    </div>
-    <div>
-    <nuxt-link class="to-editor-btn" to="/editor">
-        <font-awesome-icon icon="edit" size="2x" />
-    </nuxt-link>
     </div>
   </div>
 </template>
@@ -30,12 +32,23 @@ import PostPanel from '../components/PostPanel.vue'
 import PostPanelHeader from '../components/PostPanelHeader.vue'
 import Modal from '../components/Modal.vue'
 import DialogMessage from '../components/DialogMessage.vue'
+import Loading from '../components/Loading.vue'
+import dayjs from 'dayjs'
 
 @Component({
-    components: { PostPanelHeader, PostPanel, Modal, DialogMessage, MenuBar }
+    components: { 
+        PostPanelHeader, 
+        PostPanel, 
+        Modal, 
+        DialogMessage, 
+        MenuBar, 
+        Loading
+    }
 })
 export default class Grance extends Vue {
     posts: Post[] = []
+
+    filterKey: string = ''
 
     dialogOpen: boolean = false
 
@@ -49,9 +62,46 @@ export default class Grance extends Vue {
         onCancel: this.modalClose
     }
 
+    get filteredPosts(): Post[] {
+        if (this.filterKey === '') {
+            return this.posts
+        } else {
+            return this.posts.filter((p: Post) => {
+                // partially match the title
+                if (p.title.includes(this.filterKey)) {
+                     return true
+                }
+                // partially match tags
+                if (p.tags.some(t => t.includes(this.filterKey))) {
+                    return true
+                }
+                return false
+            })
+        }
+    }
+
     mounted() {
+        console.log('[Grance mouted]')
+        // ローディング表示
+        this.updateGrance()
+    }
+
+    updateGrance() {
+        vxm.loading.toggleLoading(true)
         vxm.post.fetchPosts().then((data: Post[]) => {
-            this.posts = data
+            const sorted = data.sort((a: Post, b: Post) => {
+                const aTime = dayjs(a.updateDateTime)
+                const bTime = dayjs(b.updateDateTime)
+                if (aTime.isBefore(bTime)) {
+                    return 1
+                }
+                if (aTime.isAfter(bTime)) {
+                    return -1
+                }
+                return 0
+            })
+            this.posts = sorted
+            vxm.loading.toggleLoading(false)
         })
     }
 
@@ -66,6 +116,7 @@ export default class Grance extends Vue {
             console.log(result)
             console.log('delete success!')
             this.modalClose()
+            this.updateGrance()
         }).catch(err => {
             console.log(err)
             // TODO error 
@@ -81,29 +132,26 @@ export default class Grance extends Vue {
 
 <style scoped>
 
+.t__header {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 100px;
+    padding-right: 16%;
+}
+
+.filter-text {
+    height: 24px;
+    width: 240px;
+    border-radius: 4px;
+}
+
 .p__container {
     display: flex;
     justify-content: center;
     margin: 0;
-    padding-top: 90px;
+    margin-top: 8px;
     padding-right: 0px;
     width: 95%;
-}
-
-.to-editor-btn {
-    /* position: fixed; */
-    top: 10%;
-    left: 92%;
-    text-decoration: none;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #212121;
-    box-shadow: 10px 10px 10px rgba(0,0,0,0.4);
-
 }
 
 </style>
