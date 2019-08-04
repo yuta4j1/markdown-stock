@@ -19,6 +19,7 @@ export default class Index extends Vue {
 
 <style>
 body {
+    margin: 0;
     font-family: 'M PLUS 1p', sans-serif;
 }
 </style>
