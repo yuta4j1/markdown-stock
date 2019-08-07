@@ -42,7 +42,7 @@ import Modal from '../components/Modal.vue'
 })
 export default class Editor extends Vue {
 
-    private post: Post = vxm.post.onEditPost || {
+    private post: Post = vxm.post.getEditPost || {
         id: '',
         title: '',
         tags: [],
@@ -86,7 +86,6 @@ export default class Editor extends Vue {
     modalClose() {
         this.modalClass = {
           'fadeShow': false,
-        //   'hide': false,
           'fadeHide': true
         }
         this.modalOpen = false
@@ -120,13 +119,15 @@ export default class Editor extends Vue {
             message: "一覧画面に戻ります。\n現在編集中のデータは保存されません。よろしいですか？"
             },
             okIsLink: true,
-            onOk: () => console.log('move to grance'),
+            onOk: () => {
+                // 一覧画面に遷移する際に、ストアの post ID をリセットするイベント
+                vxm.post.setOnEditPost("")
+            },
             onCancel: this.modalClose
         }
         this.modalOpen = true
         this.modalClass = {
             'fadeShow': true,
-            // 'hide': false,
             'fadeHide': false
         }
     }
@@ -151,6 +152,7 @@ export default class Editor extends Vue {
             db.collection('posts').doc(id).set(aPost).then(result => {
                 console.log(result)
                 console.log('insert success!')
+                // TODO ストアの更新
                 this.modalClose()
             }).catch(err => {
                 console.log(err)
@@ -168,6 +170,7 @@ export default class Editor extends Vue {
             }).then((result) => {
                 console.log(result)
                 console.log('update success!')
+                // TODO ストアの更新
                 this.modalClose()
             }).catch(err => {
                 console.log(err)

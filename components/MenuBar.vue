@@ -4,7 +4,7 @@
         <div class="menu-main"><p>Markdown Stock</p></div>
     </div>
     <div class="menu-item">
-        <nuxt-link class="edit-btn" to="/editor">
+        <nuxt-link @click.native.prevent="onEditLinkClick" class="edit-btn" to="/editor">
             新規作成 
             <font-awesome-icon icon="edit" />
         </nuxt-link>
@@ -15,9 +15,15 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
+import { vxm } from '../store/store.vuex'
 
 @Component
 export default class MenuBar extends Vue {
+
+    onEditLinkClick() {
+        // 新規文書なので、空文字を設定する
+        vxm.post.setOnEditPost("")
+    }
 
 }
 </script>

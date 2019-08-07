@@ -4,7 +4,7 @@
       <p>{{ msgProps.message.message }}</p>
     </div>
     <div class="button-area">
-      <nuxt-link v-if="msgProps.okIsLink" class="btn cancel-link-btn" to="/grance">OK</nuxt-link>
+      <nuxt-link v-if="msgProps.okIsLink" @click.native.prevent="onOkClick" class="btn" to="/grance">OK</nuxt-link>
       <div v-else class="btn ok-btn" @click="onOkClick">OK</div>
       <div class="btn cancel-btn" @click="onCancelClick">キャンセル</div>
     </div>

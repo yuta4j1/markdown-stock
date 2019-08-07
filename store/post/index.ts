@@ -8,7 +8,7 @@ const postsRef = db.collection('posts')
 export default class PostStore extends VuexModule {
 
     @getter posts: Post[] = []
-    @getter onEditPost: Post
+    @getter onEditPostId: string
     @getter deleteDocId: string
 
     @mutation addPost(aPost: Post) {
@@ -16,7 +16,7 @@ export default class PostStore extends VuexModule {
     }
 
     @mutation setOnEditPost(id: string) {
-        this.onEditPost = this.posts.find((p: Post) => p.id === id)
+        this.onEditPostId = id
     }
 
     @mutation renewPosts(newPosts: Post[]) {
@@ -49,7 +49,7 @@ export default class PostStore extends VuexModule {
     }
 
     get getEditPost() {
-        return this.onEditPost
+        return this.posts.find((p: Post) => p.id === this.onEditPostId)
     }
 
 }
