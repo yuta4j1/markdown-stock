@@ -70,11 +70,6 @@ export default class Editor extends Vue {
         return this.postConfirmMessage
     }
 
-    modalClass = {
-      'fadeShow': false,
-      'fadeHide': false
-    }
-
     get parsedMarkdownText(): string {
         return markedParser.parse(this.post.content)
     }
@@ -84,10 +79,6 @@ export default class Editor extends Vue {
     }
 
     modalClose() {
-        this.modalClass = {
-          'fadeShow': false,
-          'fadeHide': true
-        }
         this.modalOpen = false
         console.log('close modal.')
     }
@@ -104,11 +95,6 @@ export default class Editor extends Vue {
             onCancel: this.modalClose
         }
         this.modalOpen = true
-        this.modalClass = {
-            'fadeShow': true,
-            // 'hide': false,
-            'fadeHide': false
-        }
     }
 
     onReturnClick() {
@@ -126,10 +112,6 @@ export default class Editor extends Vue {
             onCancel: this.modalClose
         }
         this.modalOpen = true
-        this.modalClass = {
-            'fadeShow': true,
-            'fadeHide': false
-        }
     }
 
     doPost() {
@@ -191,10 +173,6 @@ export default class Editor extends Vue {
     font-family: 'Sarabun', sans-serif;
 }
 
-/* .content > .row > #title {
-    margin: 20px 20px;
-    font-size: 2.0rem;
-} */
 #title {
     border-width: 0.8px;
     border-radius: 5px;
