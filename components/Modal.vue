@@ -1,7 +1,7 @@
 <template>
   <div>
       <div class="backdrop" :style="styleShow" />
-      <div class="modalFrame" :class="currModalClass">
+      <div class="modalFrame" :class="addonStyle">
           <slot></slot>
       </div>
   </div>
@@ -9,20 +9,44 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+
+type FadeEffect = {
+  'fadeShow': boolean,
+  'fadeHide': boolean
+}
 
 @Component
 export default class Modal extends Vue {
 
     @Prop(Boolean) isOpen: boolean
 
+    addonStyle: FadeEffect
+
     get styleShow() {
         return this.isOpen ? { 'display': 'block' } : { 'display': 'none' } 
     }
 
-    get currModalClass() {
-      return this.isOpen ? { 'fadeShow': true, 'fadeHide': false } : 
-      { 'fadeShow': false, 'fadeHide': true }
+    // モーダルのフェードイン／フェードアウトのスタイルクラスを
+    // プロパティをもとに設定する
+    @Watch('isOpen')
+    addFadeStyle(val: boolean, oldVal: boolean) {
+      if (!val && !oldVal) {
+        this.addonStyle = {
+          'fadeShow': false,
+          'fadeHide': false
+        }
+      } else if (val && !oldVal) {
+        this.addonStyle = {
+          'fadeShow': true,
+          'fadeHide': false
+        }
+      } else if (!val && oldVal) {
+        this.addonStyle = {
+          'fadeShow': false,
+          'fadeHide': true
+        }
+      }
     }
 
 }
