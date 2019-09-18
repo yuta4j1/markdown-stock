@@ -4,15 +4,16 @@
     <div class="grance">
         <MenuBar />
         <div class="t__header">
-            <p>フィルタ： </p>
-            <input class="filter-text" type="text" v-model="filterKey" />
+            <div class="filter-area">
+                <input class="filter-text" type="text" v-model="filterKey" placeholder="Filter" />
+            </div>
         </div>
         <div class="p__container">
             <div class="p__table">
-            <PostPanelHeader />
-            <div v-for="(post, idx) in filteredPosts" :key="idx">
-                <PostPanel :post="post" :showModal="showDeleteModal" />
-            </div>
+                <PostPanelHeader />
+                <div v-for="(post, idx) in filteredPosts" :key="idx">
+                    <PostPanel :post="post" :showModal="showDeleteModal" />
+                </div>
             </div>
             <Modal :isOpen="dialogOpen">
                 <DialogMessage :msgProps="deleteConfirmMsg" :onOk="doDelete" :onClose="modalClose" />
@@ -131,18 +132,32 @@ export default class Grance extends Vue {
 </script>
 
 <style scoped>
+.p__table {
+    width: 90%;
+}
 
 .t__header {
     display: flex;
     justify-content: flex-end;
     padding-top: 100px;
     padding-right: 16%;
+    margin: 8px;
+}
+
+.filter-area {
+    padding: 8px;
+    margin: 8px;
 }
 
 .filter-text {
-    height: 24px;
+    padding: 2px;
+    border: 2px solid;
+    font-size: 0.8em;
+    border-color: #E0E0E0;
+    height: 32px;
     width: 240px;
     border-radius: 4px;
+    box-sizing: border-box;
 }
 
 .p__container {
@@ -150,8 +165,6 @@ export default class Grance extends Vue {
     justify-content: center;
     margin: 0;
     margin-top: 8px;
-    padding-right: 0px;
-    width: 95%;
 }
 
 </style>
