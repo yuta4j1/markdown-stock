@@ -1,23 +1,25 @@
 <template>
-    <div class="content">
-        <div class="row">
-            <textarea id="title" cols="200" rows="1" placeholder="input title" v-model="post.title"></textarea>
+    <div class="editor-page">
+        <div class="content">
+            <div class="row">
+                <textarea id="title" cols="200" rows="1" placeholder="input title" v-model="post.title"></textarea>
+            </div>
+            <div class="row">
+                <textarea id="tagarea" cols="150" rows="1" placeholder="ex) JavaScript,Vue.js,firebase..." v-model="tagString"></textarea>
+            </div>
+            <div class="row">
+                <textarea id="editor" class="wide-textarea" rows="30" v-model="post.content"></textarea>
+                <div id="previewer" class="wide-textarea" rows="30" v-html="parsedMarkdownText" readonly></div>
+            </div>
+            <div class="button-area">
+                <button class="btn-plain post" @click="onPostClick">投稿</button>
+                <button class="btn-plain return" @click="onReturnClick">戻る</button>
+            </div>
+            <Modal :isOpen="dialogOpen">
+                <DialogMessage :msgProps="dialogMessage" />
+            </Modal>
         </div>
-        <div class="row">
-            <textarea id="tagarea" cols="150" rows="1" placeholder="ex) JavaScript,Vue.js,firebase..." v-model="tagString"></textarea>
-        </div>
-        <div class="row">
-            <textarea id="editor" class="wide-textarea" rows="30" v-model="post.content"></textarea>
-            <div id="previewer" class="wide-textarea" rows="30" v-html="parsedMarkdownText" readonly></div>
-        </div>
-        <div class="button-area">
-            <div class="btn-plain post" @click="onPostClick">投稿</div>
-            <div class="btn-plain return" @click="onReturnClick">戻る</div>
-        </div>
-        <Modal :isOpen="dialogOpen">
-            <DialogMessage :msgProps="dialogMessage" />
-        </Modal>
-    </div>    
+    </div>   
 </template>
 
 <script lang="ts">
@@ -164,28 +166,38 @@ export default class Editor extends Vue {
 </script>
 
 <style scoped>
+.editor-page {
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+}
 .row {
     margin: 24px auto;
     display: flex;
     justify-content: center;
 }
 .content {
+    width: 95%;
     font-family: 'Sarabun', sans-serif;
 }
 
 #title {
-    border-width: 0.8px;
+    border-width: 3.0px;
     border-radius: 5px;
     height: 30px;
-    font-size: 2.0rem;
+    font-size: 1.8rem;
+    border-color: #F5F5F5;
     resize: none;
+    padding: 4px;
 }
 
 #tagarea {
-    border-width: 0.8px;
+    border-width: 2.8px;
     border-radius: 5px;
     height: 30px;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    padding: 4px;
+    border-color: #F5F5F5;
     resize: none;
 }
 
@@ -222,8 +234,8 @@ export default class Editor extends Vue {
     border-radius: 24px;
     font-size: 1.2rem;
     font-weight: 20;
-    width: 88px;
-    height: 28px;
+    width: 96px;
+    height: 38px;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
