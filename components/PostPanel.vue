@@ -3,7 +3,7 @@
     <div class="panel__column--long">
       <nuxt-link
         class="panel__to-edit-link"
-        @click.native.prevent="onEditLinkClick"
+        @click.native.stop.prevent="onEditLinkClick"
         to="/editor"
       >{{ post.title }}</nuxt-link>
     </div>
@@ -80,6 +80,7 @@ export default class PostPanel extends Vue {
   border-bottom-style: solid;
   border-width: 0.5px;
   border-color: #e0e0e0;
+  font-family: "Quicksand", sans-serif;
 }
 
 .panel__column {
@@ -95,6 +96,7 @@ export default class PostPanel extends Vue {
 .panel__to-edit-link {
   text-decoration: none;
   color: #59248a;
+  font-weight: 500;
 }
 
 .panel__to-edit-link:hover {

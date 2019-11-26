@@ -1,6 +1,6 @@
 <template>
   <div class="post-table__container">
-    <div class="post-table__column--conteiner">
+    <div class="post-table__column--container">
       <div class="post-table__column--long">タイトル</div>
       <div class="post-table__column--long">カテゴリ</div>
       <div class="post-table__column--long">投稿日時</div>
@@ -31,16 +31,17 @@ export default class PostTable extends Vue {
 <style lang="scss" scoped>
 .post-table__container {
   max-width: 1180px;
-  padding: 8px;
   background-color: #ffffff;
-  border-radius: 16px;
+  border-radius: 16px 16px 0px 0px;
 }
-.post-table__column--conteiner {
+.post-table__column--container {
   display: flex;
   padding: 8px;
   border-bottom-style: solid;
-  border-width: 0.5px;
+  border-width: 1.5px;
   border-color: #e0e0e0;
+  background-color: #494D4D;
+  border-radius: 16px 16px 0px 0px;
 }
 
 .post-table__column {
@@ -51,5 +52,7 @@ export default class PostTable extends Vue {
 .post-table__column--long {
   margin: 0px 20px 0px 20px;
   width: 200px;
+  text-align: center;
+  color: #FFFFFF;
 }
 </style>
