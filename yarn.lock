@@ -9921,12 +9921,13 @@ vue@^2.6.10:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
   integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
 
-vuex-class-component@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/vuex-class-component/-/vuex-class-component-1.6.0.tgz#2e7142c18c9fe34a68bffcfc70cda744f8b3ba5c"
-  integrity sha512-7GkRjZO6xXO0vMMlmQjN02nTLf42Re31Hpiweg+uHVn+4wkpWaNk4iBDwQ35w2WbWeTx7NjAiej+wBeXeio0SA==
+vuex-class-component@^2.0.0:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/vuex-class-component/-/vuex-class-component-2.2.1.tgz#0901ac701691c4f48b61552a72d882f01bff6c59"
+  integrity sha512-ViHL2BVWPoqmPdZbzqQV/6Txa28nLNf9j9W9w4y7bTDh/noR2TPxPppRYC9FmZBmi+Q0OwJaSy2Ue23fi6/iCg==
   dependencies:
     object.getownpropertydescriptors "^2.0.3"
+    rimraf "^2.6.3"
 
 vuex@^3.1.1:
   version "3.1.1"
