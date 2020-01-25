@@ -178,7 +178,7 @@ export default class Editor extends Vue {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .editor-page {
   display: flex;
   justify-content: center;
