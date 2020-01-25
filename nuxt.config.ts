@@ -1,7 +1,7 @@
 import NuxtConfiguration from '@nuxt/config'
 process.env.DEBUG = 'nuxt:*'
 
-const config: NuxtConfiguration = {
+const config = {
     dev: (process.env.NODE_ENV != 'production'),
     mode: 'spa',
     devtools: true,
@@ -16,10 +16,11 @@ const config: NuxtConfiguration = {
             { src: 'https://www.gstatic.com/firebasejs/5.10.1/firebase-auth.js', type: 'text/javascript' }
         ],
         link: [
-            { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=M+PLUS+1p|Quicksand:300&display=swap' }
+            { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=M+PLUS+1p|Quicksand:300|Noto+Sans+JP:300&display=swap' }
         ]
     },
-    plugins: ['~/plugins/fontawesome']
+    plugins: ['~/plugins/fontawesome'],
+    buildModules: ['@nuxt/typescript-build', { typeCheck: true }]
 }
 
 export default config
