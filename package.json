@@ -20,7 +20,7 @@
     "vuexfire": "^3.0.0"
   },
   "devDependencies": {
-    "@nuxt/config": "2.8.1",
+    "@nuxt/config": "2.11.0",
     "@nuxt/types": "0.2.14",
     "@nuxt/typescript-build": "0.3.10",
     "@types/jest": "24.0.15",
