@@ -18,6 +18,7 @@ module.exports = {
         "vue"
     ],
     transform: {
+        "^.+\\.jsx?$": "babel-jest",
         ".*\\.(vue)$": "vue-jest",
         "^.+\\.tsx?$": "ts-jest"
     },
