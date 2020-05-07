@@ -14,7 +14,7 @@
     "firebase": "^7.0.0",
     "nuxt": "^2.8.1",
     "ts-node": "^8.3.0",
-    "uuid": "^3.3.2",
+    "uuid": "^8.0.0",
     "vue-property-decorator": "^8.2.1",
     "vuex-class-component": "^1.6.0",
     "vuexfire": "^3.0.0"
