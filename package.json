@@ -22,7 +22,7 @@
   "devDependencies": {
     "@nuxt/config": "2.11.0",
     "@nuxt/types": "0.2.14",
-    "@nuxt/typescript-build": "0.3.10",
+    "@nuxt/typescript-build": "2.1.0",
     "@types/jest": "24.9.1",
     "@vue/test-utils": "1.0.0-beta.29",
     "babel-jest": "24.8.0",
